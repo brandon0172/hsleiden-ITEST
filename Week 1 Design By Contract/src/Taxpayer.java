@@ -11,21 +11,23 @@ class Taxpayer {
  /* FIELDS */
 
     /* isFemale is true iff the person is female */
-    boolean isFemale;
+    boolean isFemale; // @invariant isFemale !== true && isMale !== true
 
     /* isMale is true iff the person is male */
-    boolean isMale;
+    boolean isMale; // @invariant isMale !== true && isFemale !== true
+
+
 
     Taxpayer father, mother; // These fields won't really be used until
     // the next part of the exercise.
 
     /* Age in years */
-    int age;
+    int age; // @invariant age >= 0
 
     boolean isMarried;
 
     /* Reference to spouce if person is married, null otherwise */
-    Taxpayer spouse;
+    Taxpayer spouse; // @invariant spouse  === null ==> isMarried === false && spouse.isFemale === true ==> isFemale !== true
 
     /* Constant default income tax allowance (belastingvrije som) */
     static final int DEFAULT_ALLOWANCE = 5000;
@@ -61,6 +63,7 @@ class Taxpayer {
 
     /* Marry to new_spouse */
     //@ requires new_spouse != null;
+    //@ requires new_spouse.isFemale == true && isMale == true || new_spouse.isMale == true && isFemale == true
     void marry(Taxpayer new_spouse) {
         spouse = new_spouse;
         isMarried = true;
